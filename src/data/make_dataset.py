@@ -2,14 +2,23 @@ import pandas as pd
 from glob import glob
 import os
 from kaggle.api.kaggle_api_extended import KaggleApi
-os.chdir('../')
+os.chdir('../../')
+
 
 # Entity
-from dataclass import dataclass
+from dataclasses import dataclass
 from pathlib import Path
 
 @dataclass(frozen=True)
-
+class makeDatasetConfig:
+    root_dir: Path
+    source_URL: str
+    local_data_file: Path
+    unzip_dir: Path
+    
+# Constants
+from src.constants import *
+from src.utils.common import read_yaml, create_directory
 #set API credentials
 api = KaggleApi()
 api.authenticate()
