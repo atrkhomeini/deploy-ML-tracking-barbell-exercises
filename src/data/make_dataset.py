@@ -16,9 +16,34 @@ class makeDatasetConfig:
     local_data_file: Path
     unzip_dir: Path
     
-# Constants
-from src.constants import *
+# Configurations
+from constant import *
 from src.utils.common import read_yaml, create_directory
+
+class ConfigurationManager:
+    def __init__(
+            self,
+            config_filepath=CONFIG_FILE_PATH,
+            params_filepath=PARAMS_FILE_PATH
+    ):
+        self.config = read_yaml(config_filepath)
+        self.params = read_yaml(params_filepath)
+
+        create_directory([self.config.dataset_root])
+
+    def get_data(self) -> makeDatasetConfig:
+        config = self.config.make_dataset
+
+        create_directory([config.root_dir])
+
+        make_dataset_config = makeDatasetConfig(
+            root_dir=config.root_dir,,
+            source_URL=config.source_URL,
+            local_data_file=config.local_data_file,
+            unzip_dir=config.unzip_dir
+        )
+
+        return make_dataset_config
 #set API credentials
 api = KaggleApi()
 api.authenticate()
